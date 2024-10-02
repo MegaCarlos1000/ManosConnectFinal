@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity2">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_color2"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imageViewProfile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/profile_picture_desc"
+            android:background="@drawable/circle_shape"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@android:color/white"
+            android:layout_toEndOf="@id/imageViewProfile"
+            android:layout_marginStart="8dp"
+            android:layout_centerVertical="true" />
+
+        <ImageButton
+            android:id="@+id/buttonMensajero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/mensajero"
+            android:contentDescription="@string/icon1_desc"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:layout_centerVertical="true" />
+
+        <ImageButton
+            android:id="@+id/buttonNotificacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/notificacion"
+            android:contentDescription="@string/icon2_desc"
+            android:layout_toStartOf="@id/buttonMensajero"
+            android:layout_marginEnd="8dp"
+            android:layout_centerVertical="true" />
+
+        <ImageButton
+            android:id="@+id/buttonCalendario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/calendario"
+            android:contentDescription="@string/icon3_desc"
+            android:layout_toStartOf="@id/buttonNotificacion"
+            android:layout_marginEnd="8dp"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_color"
+        android:orientation="horizontal"
+        android:backgroundTint="@color/background_color2"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/buttonCasa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/background_color2"
+            android:src="@mipmap/casa"
+            android:contentDescription="@string/icon1_desc" />
+
+        <ImageButton
+            android:id="@+id/buttonConfiguraciones"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/background_color2"
+            android:src="@mipmap/configuraciones"
+            android:contentDescription="@string/icon2_desc" />
+
+        <ImageButton
+            android:id="@+id/buttonTrofeo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/background_color2"
+            android:src="@mipmap/trofeo"
+            android:contentDescription="@string/icon3_desc" />
+
+        <ImageButton
+            android:id="@+id/buttonBuscar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/background_color2"
+            android:src="@mipmap/buscar"/>
+    </LinearLayout>
+</LinearLayout>

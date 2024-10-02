@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".Calendario">
+
+    <!-- Título para Mis Servicios -->
+    <TextView
+        android:id="@+id/textViewMisServicios"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mis Servicios"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <!-- RecyclerView para Mis Servicios -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMisServicios"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Título para Servicios Reservados -->
+    <TextView
+        android:id="@+id/textViewServiciosReservados"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Servicios Reservados"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <!-- RecyclerView para Servicios Reservados -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewServiciosReservados"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

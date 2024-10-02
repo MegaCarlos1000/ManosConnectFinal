@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "594252247078",
+    "project_id": "fireboss-e75c7",
+    "storage_bucket": "fireboss-e75c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594252247078:android:3dc1c77a9c702f5d71b6e7",
+        "android_client_info": {
+          "package_name": "com.example.manosconnectfinal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtZ1CcxphUP5r8-WP5uNCaBAJ_0zQDx0M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

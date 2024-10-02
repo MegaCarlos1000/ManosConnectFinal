@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">ManosConnect</string>
+    <string name="app_title">ManosConnect</string>
+    <string name="login_button">Iniciar Sesión</string>
+    <string name="register_button">Registrar</string>
+    <string name="email_hint">Correo</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="first_name_hint">Nombre</string>
+    <string name="last_name_hint">Apellido</string>
+    <string name="confirm_password_hint">Confirmar Contraseña</string>
+    <string name="profile_picture_desc">Foto de perfil</string>
+    <string name="edit_profile_button">Editar Perfil</string>
+    <string name="logout_button">Cerrar Sesión</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="icon1_desc">Descripción del icono 1</string>
+    <string name="icon2_desc">Descripción del icono 2</string>
+    <string name="icon3_desc">Descripción del icono 3</string>
+    <string name="upload_services_title">Subir Servicios</string>
+    <string name="select_service">Seleccione un servicio:</string>
+    <string name="service_price_hint">Precio del servicio</string>
+    <string name="service_address_hint">Dirección</string>
+    <string name="upload_service_button">Subir Servicio</string>
+    <string name="change_profile_picture_desc">Cambiar foto de perfil</string>
+    <string name="search_icon_desc">Descripción del icono de búsqueda</string>
+    <string name="selected_date">Fecha Seleccionada: N/A</string>
+    <string name="selected_time">Hora Seleccionada: N/A</string>
+    <string name="select_date">Seleccionar Fecha</string>
+    <string name="select_time">Seleccionar Hora</string>
+    <string name="select_days_and_times">Selecciona Días y Horas Disponibles</string>
+    <string name="add_day_time">Añadir Día y Hora</string>
+</resources>

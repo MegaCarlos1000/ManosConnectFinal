@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ManosConnectFinal" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/button_color</item> <!-- Color primario para la app -->
+        <item name="colorOnPrimary">@color/black</item> <!-- Color del texto sobre el color primario -->
+        <item name="colorSecondary">@color/black</item> <!-- Color secundario -->
+        <item name="colorOnSecondary">@color/white</item> <!-- Color del texto sobre el color secundario -->
+    </style>
+
+    <style name="Theme.ManosConnectFinal" parent="Base.Theme.ManosConnectFinal" />
+
+</resources>
