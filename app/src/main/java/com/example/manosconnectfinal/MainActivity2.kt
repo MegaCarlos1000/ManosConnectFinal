@@ -25,6 +25,7 @@ class MainActivity2 : AppCompatActivity() {
     private lateinit var imageButtonCasa: ImageButton  // Agregar referencia al botón de configuraciones
     private lateinit var imageButtonNotificacion: ImageButton
     private lateinit var imageButtonCalendario: ImageButton
+    private lateinit var imageButtonbuscar: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +49,7 @@ class MainActivity2 : AppCompatActivity() {
         imageButtonCasa = findViewById(R.id.buttonCasa)
         imageButtonNotificacion = findViewById(R.id.buttonNotificacion)
         imageButtonCalendario = findViewById(R.id.buttonCalendario)
+        imageButtonbuscar = findViewById(R.id.buttonBuscar)
 
         // Cargar el perfil del usuario
         loadUserProfile()
@@ -72,6 +74,10 @@ class MainActivity2 : AppCompatActivity() {
         imageButtonCalendario.setOnClickListener {
             loadCalendarioFragment()
         }
+        imageButtonbuscar.setOnClickListener {
+            loadbuscarFragment()
+        }
+
 
 
     }
@@ -85,6 +91,15 @@ class MainActivity2 : AppCompatActivity() {
                 Picasso.get().load(it.profileImage).into(imageViewProfile)
             }
         }
+    }
+    private fun  loadbuscarFragment() {
+        // Cargar el UserProfileFragment
+        val userProfileFragment = MostrarServicios()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, userProfileFragment)
+            .addToBackStack(null) // Agrega la transacción al back stack
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .commit()
     }
 
     private fun loadUserProfileFragment() {

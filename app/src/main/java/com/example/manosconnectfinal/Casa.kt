@@ -35,6 +35,9 @@ class Casa : Fragment(), ServiceAdapter.OnServiceClickListener {
         val buttonMakeService: Button = view.findViewById(R.id.buttonMakeService)
         buttonMakeService.setOnClickListener { loadSubirServiciosFragment() }
 
+        val buttonRequestService: Button = view.findViewById(R.id.buttonRequestService)
+        buttonRequestService.setOnClickListener { loadMostrarServiciosFragment() }
+
 
         val imageViewMaps: ImageView = view.findViewById(R.id.imageViewMaps)
         imageViewMaps.setOnClickListener {
@@ -61,6 +64,14 @@ class Casa : Fragment(), ServiceAdapter.OnServiceClickListener {
     // Método para cargar el fragmento para subir servicios
     private fun loadSubirServiciosFragment() {
         val subirServiciosFragment = SubirServicios()
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, subirServiciosFragment)
+            .addToBackStack(null)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .commit()
+    }
+    private fun loadMostrarServiciosFragment() {
+        val subirServiciosFragment = MostrarServicios()
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, subirServiciosFragment)
             .addToBackStack(null)
