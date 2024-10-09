@@ -89,15 +89,47 @@ class Informacion : Fragment() {
 
     private fun completeAppointment(appointmentId: String?) {
         appointmentId?.let {
-            database.child("appointments").child(it).removeValue()
-                .addOnSuccessListener {
-                    Toast.makeText(requireContext(), "Cita completada", Toast.LENGTH_SHORT).show()
-                    // Volver a cargar las citas
-                    loadUserAppointments()
+            // Obtener la cita
+            database.child("appointments").child(it).get().addOnSuccessListener { snapshot ->
+                val appointment = snapshot.getValue(Appointment::class.java)
+                if (appointment != null) {
+                    // Obtener detalles del servicio usando el serviceId
+                    database.child("services").child(appointment.serviceId).get()
+                        .addOnSuccessListener { serviceSnapshot ->
+                            // Obtener el nombre del proveedor
+                            val providerFirstName = serviceSnapshot.child("firstName").getValue(String::class.java) ?: "Proveedor"
+                            val providerLastName = serviceSnapshot.child("lastName").getValue(String::class.java) ?: "Proveedor"
+                            val serviceName = serviceSnapshot.child("serviceName").getValue(String::class.java) ?: "Servicio"
+
+                            // Eliminar la cita
+                            database.child("appointments").child(it).removeValue()
+                                .addOnSuccessListener {
+                                    Toast.makeText(requireContext(), "Cita completada", Toast.LENGTH_SHORT).show()
+
+                                    // Crear una notificación para el usuario que reservó
+                                    val notificationRef = database.child("notifications").child(appointment.userId).push()
+                                    val notification = Notification(
+                                        message = "Tu cita con ${providerFirstName} ${providerLastName} para el servicio $serviceName ha sido completada. Califica el servicio.",
+                                        timestamp = System.currentTimeMillis()
+                                    )
+                                    notificationRef.setValue(notification)
+
+                                    // Volver a cargar las citas
+                                    loadUserAppointments()
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(requireContext(), "Error al completar la cita", Toast.LENGTH_SHORT).show()
+                                }
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(requireContext(), "Error al obtener los detalles del servicio", Toast.LENGTH_SHORT).show()
+                        }
                 }
-                .addOnFailureListener {
-                    Toast.makeText(requireContext(), "Error al completar la cita", Toast.LENGTH_SHORT).show()
-                }
+            }
         }
     }
+
+
+
+
 }

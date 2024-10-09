@@ -80,3 +80,15 @@ data class Badge(
     val name: String
 )
 
+
+
+data class Notification(
+    val message: String = "",
+    val timestamp: Long = System.currentTimeMillis()
+)
+
+data class Message(
+    val text: String,
+    val isSent: Boolean // true si es un mensaje enviado, false si es recibido
+)
+

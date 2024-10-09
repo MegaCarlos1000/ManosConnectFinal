@@ -1,5 +1,6 @@
 package com.example.manosconnectfinal
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -27,6 +28,7 @@ class MainActivity2 : AppCompatActivity() {
     private lateinit var imageButtonCalendario: ImageButton
     private lateinit var imageButtonbuscar: ImageButton
     private lateinit var imageButtontrofeo: ImageButton
+    private lateinit var imageButtonchat: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +54,8 @@ class MainActivity2 : AppCompatActivity() {
         imageButtonCalendario = findViewById(R.id.buttonCalendario)
         imageButtonbuscar = findViewById(R.id.buttonBuscar)
         imageButtontrofeo = findViewById(R.id.buttonTrofeo)
+        imageButtonchat = findViewById(R.id.buttonMensajero)
+
 
         // Cargar el perfil del usuario
         loadUserProfile()
@@ -82,6 +86,9 @@ class MainActivity2 : AppCompatActivity() {
         imageButtontrofeo.setOnClickListener {
             loadtrofeoFragment()
         }
+        imageButtonchat.setOnClickListener {
+            loadChatActivity()
+        }
 
 
 
@@ -105,6 +112,10 @@ class MainActivity2 : AppCompatActivity() {
             .addToBackStack(null) // Agrega la transacción al back stack
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
+    }
+    private fun loadChatActivity() {
+        val intent = Intent(this, ActivityChat::class.java)
+        startActivity(intent)
     }
 
     private fun loadUserProfileFragment() {

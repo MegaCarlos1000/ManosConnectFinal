@@ -15,6 +15,12 @@
         android:theme="@style/Theme.ManosConnectFinal"
         tools:targetApi="31">
         <activity
+            android:name=".Chat2"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityChat"
+            android:exported="false" />
+        <activity
             android:name=".chat"
             android:exported="false" />
         <activity

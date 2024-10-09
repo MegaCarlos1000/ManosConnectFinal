@@ -6,4 +6,6 @@
     <color name="background_color2">#63696B</color>
     <color name="button_color">#607D8B</color>
     <color name="button_text_color">#FF000000</color>
+    <color name="chat1">#0078FF</color>
+    <color name="chat2">#E0E0E0</color>
 </resources>
