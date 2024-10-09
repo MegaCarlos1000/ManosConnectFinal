@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -24,6 +25,7 @@ class UserProfileFragment : Fragment() {
     private lateinit var textViewEmail: TextView
     private lateinit var textViewCalificacion: TextView // Añadido para la calificación
     private lateinit var imageViewProfile: ImageView
+    private lateinit var imageViewhistoria: ImageView
     private lateinit var buttonLogout: Button // Agrega la referencia al botón
 
     override fun onCreateView(
@@ -41,6 +43,7 @@ class UserProfileFragment : Fragment() {
         textViewEmail = view.findViewById(R.id.textViewEmail)
         textViewCalificacion = view.findViewById(R.id.textViewcalificacion) // Inicializa el TextView de calificación
         imageViewProfile = view.findViewById(R.id.imageViewProfile)
+        imageViewhistoria = view.findViewById(R.id.historyImageView)
         buttonLogout = view.findViewById(R.id.buttonLogout) // Inicializa el botón de cerrar sesión
 
         loadUserProfile()
@@ -48,6 +51,10 @@ class UserProfileFragment : Fragment() {
         // Configura el listener para el botón de cerrar sesión
         buttonLogout.setOnClickListener {
             logout()
+        }
+        // Configura el listener para el botón de cerrar sesión
+        imageViewhistoria.setOnClickListener {
+           historia()
         }
 
         return view
@@ -76,6 +83,16 @@ class UserProfileFragment : Fragment() {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
     }
+    private fun historia() {
+        val userProfileFragment = historial()
+        parentFragmentManager.beginTransaction() // Cambiar a parentFragmentManager
+            .replace(R.id.fragmentContainer, userProfileFragment)
+            .addToBackStack(null) // Agrega la transacción al back stack
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .commit()
+    }
+
+
 
     data class User(
         val firstName: String = "",

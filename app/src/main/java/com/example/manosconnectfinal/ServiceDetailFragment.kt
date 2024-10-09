@@ -26,6 +26,7 @@ class ServiceDetailFragment : Fragment() {
     private lateinit var textViewProviderName: TextView
     private lateinit var radioGroupAvailableTimes: RadioGroup
     private lateinit var buttonSchedule: Button
+    private lateinit var serviceHistory: ServiceHistory
 
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
@@ -126,6 +127,9 @@ class ServiceDetailFragment : Fragment() {
         // Obtener el ID del usuario actual
         val userId = auth.currentUser?.uid ?: return
 
+        // Cargar el historial de servicios del usuario
+        loadServiceHistory(userId)
+
         // Obtener la información del usuario
         database.child("users").child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(userSnapshot: DataSnapshot) {
@@ -149,6 +153,10 @@ class ServiceDetailFragment : Fragment() {
                 // Guardar la cita en Firebase
                 database.child("appointments").child(appointmentId).setValue(appointmentData)
                     .addOnSuccessListener {
+                        // Agregar la cita al historial del usuario
+                        serviceHistory.addAppointment(appointmentData)
+                        updateServiceHistory(userId)
+
                         // Eliminar el horario agendado de los horarios disponibles
                         removeScheduledTime(selectedRadioButtonId)
 
@@ -166,6 +174,27 @@ class ServiceDetailFragment : Fragment() {
                 Toast.makeText(requireContext(), "Error al cargar la información del usuario.", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun loadServiceHistory(userId: String) {
+        serviceHistory = ServiceHistory() // Inicializar el historial
+        database.child("users").child(userId).child("serviceHistory").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // Cargar el historial existente
+                snapshot.getValue(ServiceHistory::class.java)?.let {
+                    serviceHistory = it
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Error al cargar el historial de servicios.", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun updateServiceHistory(userId: String) {
+        // Guardar el historial actualizado en Firebase
+        database.child("users").child(userId).child("serviceHistory").setValue(serviceHistory)
     }
 
 

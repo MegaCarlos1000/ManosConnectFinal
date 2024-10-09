@@ -26,6 +26,7 @@ class MainActivity2 : AppCompatActivity() {
     private lateinit var imageButtonNotificacion: ImageButton
     private lateinit var imageButtonCalendario: ImageButton
     private lateinit var imageButtonbuscar: ImageButton
+    private lateinit var imageButtontrofeo: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +51,7 @@ class MainActivity2 : AppCompatActivity() {
         imageButtonNotificacion = findViewById(R.id.buttonNotificacion)
         imageButtonCalendario = findViewById(R.id.buttonCalendario)
         imageButtonbuscar = findViewById(R.id.buttonBuscar)
+        imageButtontrofeo = findViewById(R.id.buttonTrofeo)
 
         // Cargar el perfil del usuario
         loadUserProfile()
@@ -76,6 +78,9 @@ class MainActivity2 : AppCompatActivity() {
         }
         imageButtonbuscar.setOnClickListener {
             loadbuscarFragment()
+        }
+        imageButtontrofeo.setOnClickListener {
+            loadtrofeoFragment()
         }
 
 
@@ -115,6 +120,15 @@ class MainActivity2 : AppCompatActivity() {
     private fun loadConfiguracionesFragment() {
         // Cargar el Configuraciones Fragment
         val configuracionesFragment = Configuraciones()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, configuracionesFragment)
+            .addToBackStack(null) // Agrega la transacción al back stack
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .commit()
+    }
+    private fun loadtrofeoFragment() {
+        // Cargar el Configuraciones Fragment
+        val configuracionesFragment = logros()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, configuracionesFragment)
             .addToBackStack(null) // Agrega la transacción al back stack

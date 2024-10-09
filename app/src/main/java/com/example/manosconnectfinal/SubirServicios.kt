@@ -45,6 +45,7 @@ class SubirServicios : Fragment(), DatePickerDialog.OnDateSetListener, TimePicke
     )
 
     private val selectedDaysTimes: MutableList<AvailableTime> = mutableListOf()
+    private lateinit var serviceHistory: ServiceHistory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,6 +65,7 @@ class SubirServicios : Fragment(), DatePickerDialog.OnDateSetListener, TimePicke
 
         setupSpinner()
         setupRecyclerView()
+        loadServiceHistory()
 
         buttonAddDayTime.setOnClickListener { showDateTimePicker() }
         buttonUploadService.setOnClickListener { uploadService() }
@@ -81,6 +83,19 @@ class SubirServicios : Fragment(), DatePickerDialog.OnDateSetListener, TimePicke
         dayTimeAdapter = DayTimeAdapter(selectedDaysTimes)
         recyclerViewDaysTimes.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewDaysTimes.adapter = dayTimeAdapter
+    }
+
+    private fun loadServiceHistory() {
+        val userId = auth.currentUser?.uid ?: return
+        database.child("users").child(userId).child("serviceHistory").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                serviceHistory = snapshot.getValue(ServiceHistory::class.java) ?: ServiceHistory()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Error al cargar el historial de servicios.", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun showDateTimePicker() {
@@ -134,7 +149,6 @@ class SubirServicios : Fragment(), DatePickerDialog.OnDateSetListener, TimePicke
 
         val userId = auth.currentUser?.uid ?: return
 
-        // Verificar si el servicio ya existe
         database.child("services").orderByChild("userId").equalTo(userId)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -151,18 +165,15 @@ class SubirServicios : Fragment(), DatePickerDialog.OnDateSetListener, TimePicke
                     if (serviceExists) {
                         Toast.makeText(requireContext(), "Ya tienes un servicio con este nombre.", Toast.LENGTH_SHORT).show()
                     } else {
-                        // Si no existe, crear un nuevo servicio
-                        val serviceId = database.child("services").push().key ?: return // Generar ID único
+                        val serviceId = database.child("services").push().key ?: return
 
-                        // Obtener datos del usuario (proveedor) para asociarlos al servicio
                         database.child("users").child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(userSnapshot: DataSnapshot) {
                                 val firstName = userSnapshot.child("firstName").getValue(String::class.java) ?: ""
                                 val lastName = userSnapshot.child("lastName").getValue(String::class.java) ?: ""
 
-                                // Crear el objeto de servicio
                                 val serviceData = Service(
-                                    id = serviceId, // Asignar el ID generado
+                                    id = serviceId,
                                     serviceName = selectedService,
                                     servicePrice = servicePrice,
                                     serviceAddress = serviceAddress,
@@ -172,9 +183,11 @@ class SubirServicios : Fragment(), DatePickerDialog.OnDateSetListener, TimePicke
                                     availableTimes = selectedDaysTimes.toList()
                                 )
 
-                                // Subir el servicio a Firebase
                                 database.child("services").child(serviceId).setValue(serviceData)
                                     .addOnSuccessListener {
+                                        serviceHistory.addService(serviceData)
+                                        updateServiceHistory(userId)
+
                                         Toast.makeText(requireContext(), "Servicio subido exitosamente", Toast.LENGTH_SHORT).show()
                                         clearFields()
                                     }
@@ -196,6 +209,9 @@ class SubirServicios : Fragment(), DatePickerDialog.OnDateSetListener, TimePicke
             })
     }
 
+    private fun updateServiceHistory(userId: String) {
+        database.child("users").child(userId).child("serviceHistory").setValue(serviceHistory)
+    }
 
     private fun clearFields() {
         editTextServicePrice.text.clear()
