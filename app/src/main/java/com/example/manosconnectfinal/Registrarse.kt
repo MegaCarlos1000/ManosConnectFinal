@@ -105,7 +105,11 @@ class Registrarse : AppCompatActivity() {
     }
 
     private fun saveUserData(userId: String, firstName: String, lastName: String, email: String, profileImage: String) {
-        val user = User(firstName, lastName, email, profileImage)
+        // Crear una calificación de 5
+        val calificacion = Calificacion(score = 5)
+
+        // Crear el usuario con la calificación
+        val user = User(firstName, lastName, email, profileImage, calificacion)
         val databaseRef = database.getReference("users").child(userId)
 
         databaseRef.setValue(user).addOnCompleteListener { task ->
@@ -120,5 +124,13 @@ class Registrarse : AppCompatActivity() {
         }
     }
 
-    data class User(val firstName: String, val lastName: String, val email: String, val profileImage: String)
+    data class User(
+        val firstName: String,
+        val lastName: String,
+        val email: String,
+        val profileImage: String,
+        val calificacion: Calificacion? = null
+    )
+
+    data class Calificacion(val score: Int, val description: String = "")
 }

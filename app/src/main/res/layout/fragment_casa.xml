@@ -19,27 +19,7 @@
         android:layout_gravity="center"
         android:paddingBottom="16dp" />
 
-    <!-- Campo de búsqueda -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/buscar"
-            android:contentDescription="@string/search_icon_desc"
-            android:layout_marginEnd="8dp" />
-
-        <EditText
-            android:id="@+id/editTextSearch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Buscar actividades" />
-    </LinearLayout>
 
     <!-- Lista de actividades -->
     <androidx.recyclerview.widget.RecyclerView
@@ -72,12 +52,14 @@
             android:text="Pedir Servicios" />
     </LinearLayout>
 
-    <!-- Contenedor de fragmento -->
-    <FrameLayout
-        android:id="@+id/fragmentContainer"
+    <ImageView
+        android:id="@+id/imageViewMaps"
         android:layout_width="match_parent"
         android:layout_height="219dp"
         android:layout_marginTop="16dp"
-        android:background="@android:color/darker_gray" />
+        android:src="@mipmap/mapa"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="Abrir ubicación en Google Maps" />
 
 </LinearLayout>

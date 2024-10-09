@@ -22,6 +22,7 @@ class UserProfileFragment : Fragment() {
 
     private lateinit var textViewName: TextView
     private lateinit var textViewEmail: TextView
+    private lateinit var textViewCalificacion: TextView // Añadido para la calificación
     private lateinit var imageViewProfile: ImageView
     private lateinit var buttonLogout: Button // Agrega la referencia al botón
 
@@ -38,6 +39,7 @@ class UserProfileFragment : Fragment() {
         // Referencias a los elementos de la interfaz
         textViewName = view.findViewById(R.id.textViewName)
         textViewEmail = view.findViewById(R.id.textViewEmail)
+        textViewCalificacion = view.findViewById(R.id.textViewcalificacion) // Inicializa el TextView de calificación
         imageViewProfile = view.findViewById(R.id.imageViewProfile)
         buttonLogout = view.findViewById(R.id.buttonLogout) // Inicializa el botón de cerrar sesión
 
@@ -58,6 +60,7 @@ class UserProfileFragment : Fragment() {
             user?.let {
                 textViewName.text = "${it.firstName} ${it.lastName}"
                 textViewEmail.text = it.email
+                textViewCalificacion.text = "Calificación: ${it.calificacion?.score ?: "N/A"}" // Mostrar calificación
                 Picasso.get().load(it.profileImage).into(imageViewProfile)
             }
         }
@@ -78,6 +81,12 @@ class UserProfileFragment : Fragment() {
         val firstName: String = "",
         val lastName: String = "",
         val email: String = "",
-        val profileImage: String = ""
+        val profileImage: String = "",
+        val calificacion: Calificacion? = null // Asegúrate de incluir la calificación
+    )
+
+    data class Calificacion(
+        val score: Int = 0,
+        val description: String = ""
     )
 }

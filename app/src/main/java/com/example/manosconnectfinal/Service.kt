@@ -11,11 +11,17 @@ data class Service(
     var rating: Double = 0.0,
     var availableTimes: List<AvailableTime> = listOf(),
 )
-data class Appointment(
-    val userId: String,
-    val firstName: String,
-    val lastName: String,
-    val time: String,
-    val date: String
-)
 
+data class Appointment(
+    var appointmentId: String = "", // ID único de la cita
+    var serviceId: String = "",     // ID del servicio agendado
+    var userId: String = "",        // ID del usuario que agenda
+    var firstName: String = "",     // Nombre del usuario
+    var lastName: String = "",      // Apellido del usuario
+    var email: String = "",         // Email del usuario
+    var date: String = "",          // Fecha de la cita
+    var time: String = "",          // Hora de la cita
+) {
+    // Constructor vacío para Firebase
+    constructor() : this("", "", "", "", "")
+}

@@ -33,7 +33,7 @@
             android:id="@+id/textViewName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="14sp"
             android:layout_gravity="center"
             android:paddingTop="16dp" />
 
@@ -43,7 +43,14 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:layout_gravity="center"
-            android:paddingTop="8dp" />
+            android:paddingTop="0dp" />
+        <TextView
+            android:id="@+id/textViewcalificacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:paddingTop="0dp" />
 
         <TextView
             android:id="@+id/textViewEmail"
@@ -51,7 +58,8 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:layout_gravity="center"
-            android:paddingTop="8dp" />
+            android:paddingTop="0dp" />
+
 
         <!-- Texto "Historial" -->
         <TextView
@@ -61,7 +69,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_gravity="center"
-            android:paddingTop="16dp" />
+            android:paddingTop="0dp" />
 
         <!-- Contenedor de fragmento para el historial -->
         <FrameLayout

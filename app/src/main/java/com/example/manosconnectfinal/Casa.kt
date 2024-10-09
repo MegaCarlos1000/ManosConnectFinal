@@ -1,11 +1,15 @@
 package com.example.manosconnectfinal
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -27,8 +31,16 @@ class Casa : Fragment(), ServiceAdapter.OnServiceClickListener {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_casa, container, false)
 
+        // Inicializar el botón que abre el fragmento para subir servicios
         val buttonMakeService: Button = view.findViewById(R.id.buttonMakeService)
         buttonMakeService.setOnClickListener { loadSubirServiciosFragment() }
+
+
+        val imageViewMaps: ImageView = view.findViewById(R.id.imageViewMaps)
+        imageViewMaps.setOnClickListener {
+            abrirMapaCopiapo(requireContext()) // Usando requireContext() para obtener el contexto
+        }
+
 
         // Inicializar la referencia de Firebase a "services"
         database = FirebaseDatabase.getInstance().reference.child("services")
@@ -40,6 +52,7 @@ class Casa : Fragment(), ServiceAdapter.OnServiceClickListener {
         serviceAdapter = ServiceAdapter(serviceList, this) // Pasar el listener
         recyclerViewActivities.adapter = serviceAdapter
 
+        // Cargar servicios
         loadServices()
 
         return view
@@ -82,7 +95,6 @@ class Casa : Fragment(), ServiceAdapter.OnServiceClickListener {
         })
     }
 
-
     // Cuando se hace clic en un servicio, abrir el fragmento de detalles del servicio
     override fun onServiceClick(service: Service) {
         val serviceDetailFragment = ServiceDetailFragment().apply {
@@ -105,4 +117,26 @@ class Casa : Fragment(), ServiceAdapter.OnServiceClickListener {
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
     }
+    fun abrirMapaCopiapo(context: Context) {
+        val mapIntent: Intent = Uri.parse(
+            "geo:0,0?q=Copiapó,Chile"
+        ).let { location ->
+            Intent(Intent.ACTION_VIEW, location)
+        }
+
+        // Verificamos que haya una aplicación que pueda manejar el Intent
+        if (mapIntent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(mapIntent)
+        } else {
+            // Manejo en caso de que no haya aplicaciones para abrir mapas
+            Toast.makeText(context, "No hay aplicaciones de mapas disponibles", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+
+
+
+
 }
+

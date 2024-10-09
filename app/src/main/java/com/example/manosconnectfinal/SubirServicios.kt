@@ -133,42 +133,69 @@ class SubirServicios : Fragment(), DatePickerDialog.OnDateSetListener, TimePicke
         }
 
         val userId = auth.currentUser?.uid ?: return
-        val serviceId = database.child("services").push().key ?: return // Generar ID único
 
-        // Obtener datos del usuario (proveedor) para asociarlos al servicio
-        database.child("users").child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val firstName = snapshot.child("firstName").getValue(String::class.java) ?: ""
-                val lastName = snapshot.child("lastName").getValue(String::class.java) ?: ""
+        // Verificar si el servicio ya existe
+        database.child("services").orderByChild("userId").equalTo(userId)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var serviceExists = false
 
-                // Crear el objeto de servicio
-                val serviceData = Service(
-                    id = serviceId, // Asignar el ID generado
-                    serviceName = selectedService,
-                    servicePrice = servicePrice,
-                    serviceAddress = serviceAddress,
-                    userId = userId,
-                    firstName = firstName,
-                    lastName = lastName,
-                    availableTimes = selectedDaysTimes.toList()
-                )
-
-                // Subir el servicio a Firebase
-                database.child("services").child(serviceId).setValue(serviceData)
-                    .addOnSuccessListener {
-                        Toast.makeText(requireContext(), "Servicio subido exitosamente", Toast.LENGTH_SHORT).show()
-                        clearFields()
+                    for (serviceSnapshot in snapshot.children) {
+                        val existingServiceName = serviceSnapshot.child("serviceName").getValue(String::class.java) ?: ""
+                        if (existingServiceName == selectedService) {
+                            serviceExists = true
+                            break
+                        }
                     }
-                    .addOnFailureListener {
-                        Toast.makeText(requireContext(), "Error al subir el servicio", Toast.LENGTH_SHORT).show()
-                    }
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Error al obtener datos del usuario.", Toast.LENGTH_SHORT).show()
-            }
-        })
+                    if (serviceExists) {
+                        Toast.makeText(requireContext(), "Ya tienes un servicio con este nombre.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        // Si no existe, crear un nuevo servicio
+                        val serviceId = database.child("services").push().key ?: return // Generar ID único
+
+                        // Obtener datos del usuario (proveedor) para asociarlos al servicio
+                        database.child("users").child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(userSnapshot: DataSnapshot) {
+                                val firstName = userSnapshot.child("firstName").getValue(String::class.java) ?: ""
+                                val lastName = userSnapshot.child("lastName").getValue(String::class.java) ?: ""
+
+                                // Crear el objeto de servicio
+                                val serviceData = Service(
+                                    id = serviceId, // Asignar el ID generado
+                                    serviceName = selectedService,
+                                    servicePrice = servicePrice,
+                                    serviceAddress = serviceAddress,
+                                    userId = userId,
+                                    firstName = firstName,
+                                    lastName = lastName,
+                                    availableTimes = selectedDaysTimes.toList()
+                                )
+
+                                // Subir el servicio a Firebase
+                                database.child("services").child(serviceId).setValue(serviceData)
+                                    .addOnSuccessListener {
+                                        Toast.makeText(requireContext(), "Servicio subido exitosamente", Toast.LENGTH_SHORT).show()
+                                        clearFields()
+                                    }
+                                    .addOnFailureListener {
+                                        Toast.makeText(requireContext(), "Error al subir el servicio", Toast.LENGTH_SHORT).show()
+                                    }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(requireContext(), "Error al obtener datos del usuario.", Toast.LENGTH_SHORT).show()
+                            }
+                        })
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(requireContext(), "Error al verificar servicios existentes.", Toast.LENGTH_SHORT).show()
+                }
+            })
     }
+
 
     private fun clearFields() {
         editTextServicePrice.text.clear()

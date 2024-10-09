@@ -133,16 +133,17 @@ class ServiceDetailFragment : Fragment() {
                 val lastName = userSnapshot.child("lastName").getValue(String::class.java) ?: ""
                 val email = userSnapshot.child("email").getValue(String::class.java) ?: ""
 
-                // Crear un objeto de cita
+                // Crear un objeto de cita usando la nueva clase Appointment
                 val appointmentId = database.child("appointments").push().key ?: return // Generar ID único
-                val appointmentData = mapOf(
-                    "serviceId" to selectedServiceId,
-                    "userId" to userId,
-                    "firstName" to firstName,
-                    "lastName" to lastName,
-                    "email" to email,
-                    "time" to selectedTime,
-                    "date" to selectedRadioButton.text.toString().split(" a las ")[0] // Extraer la fecha del texto
+                val appointmentData = Appointment(
+                    appointmentId = appointmentId,
+                    serviceId = selectedServiceId ?: "", // Asegúrate de que sea no nulo
+                    userId = userId,
+                    firstName = firstName,
+                    lastName = lastName,
+                    email = email,
+                    date = selectedRadioButton.text.toString().split(" a las ")[0], // Extraer la fecha
+                    time = selectedRadioButton.text.toString().split(" a las ")[1]  // Extraer la hora
                 )
 
                 // Guardar la cita en Firebase
@@ -166,6 +167,7 @@ class ServiceDetailFragment : Fragment() {
             }
         })
     }
+
 
 
     // Método para navegar al fragmento Casa
